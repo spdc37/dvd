@@ -33,7 +33,7 @@
       wantlist: []
     },
     currentView: 'collection',
-    pageSize: 50,
+    pageSize: 100,
     currentPage: 1,
     searchQuery: ''
   };
@@ -89,7 +89,7 @@
       }
 
       state.currentView = 'collection';
-      state.pageSize = 50;
+      state.pageSize = 100;
       state.currentPage = 1;
 
       render();
@@ -133,7 +133,7 @@
       return [];
     }
 
-    const size = Number(state.pageSize) || 50;
+    const size = Number(state.pageSize) || 100;
     if (state.pageSize === 'all' || size <= 0) {
       return [dataset];
     }
@@ -321,7 +321,7 @@
 
   function onPageSizeChange(event) {
     const value = event.target.value;
-    state.pageSize = value === 'all' ? 'all' : Number(value) || 50;
+    state.pageSize = value === 'all' ? 'all' : Number(value) || 100;
     state.currentPage = 1;
     render();
   }
@@ -336,7 +336,7 @@
   function onNextPage() {
     const dataset = getCurrentDataset();
     const totalItems = dataset.length;
-    const size = state.pageSize === 'all' ? totalItems : Number(state.pageSize) || 50;
+    const size = state.pageSize === 'all' ? totalItems : Number(state.pageSize) || 100;
     const totalPages = state.pageSize === 'all' ? 1 : Math.max(1, Math.ceil(totalItems / size));
 
     if (state.currentPage < totalPages) {

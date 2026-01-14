@@ -150,7 +150,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--muted);
-  border-bottom: 1px solid var(--border-soft);
+  border-bottom: 5px solid var(--border);
   background-color: color-mix(in srgb, var(--bg-elevated) 85%, var(--border) 15%);
 }
 
