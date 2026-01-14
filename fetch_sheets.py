@@ -10,7 +10,7 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
 
 
 def get_service_account_credentials():
-    raw = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON")
+    raw = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
     if not raw:
         raise RuntimeError(
             "GOOGLE_SERVICE_ACCOUNT_JSON environment variable is not set"
@@ -68,7 +68,7 @@ def write_json(path: str, data) -> None:
 
 
 def main() -> None:
-    spreadsheet_id = os.environ.get("SPREADSHEET_ID")
+    spreadsheet_id = os.getenv("SPREADSHEET_ID")
     if not spreadsheet_id:
         raise RuntimeError("SPREADSHEET_ID environment variable is not set")
 
