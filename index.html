@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ma collection de DVDs</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top-bar">
+    <h1>Ma collection de DVDs</h1>
+    <div class="top-bar-right">
+      <button id="theme-toggle" type="button">
+        <span class="theme-toggle-icon"></span>
+        <span class="theme-toggle-label">Toggle theme</span>
+      </button>
+      <div class="view-switch">
+        <span class="view-switch-label">View</span>
+        <select id="view-select">
+          <option value="collection">Collection</option>
+          <option value="wantlist">Wantlist</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="controls">
+      <input
+        id="search"
+        type="search"
+        placeholder="Search by title or director..."
+        autocomplete="off"
+      />
+      <span id="count" class="count"></span>
+      <span id="status" class="count">Loading data…</span>
+    </section>
+
+
+    <section class="table-wrapper">
+      <div id="tables-container" class="tables-container" aria-live="polite">
+        <p class="placeholder">No data yet. Add collection.json and wantlist.json to this folder.</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span id="last-updated" class="last-updated"></span>
+    </footer>
+  </main>
+
+  <div class="bottom-bar">
+    <div class="bottom-bar-inner">
+      <div class="pagination-controls">
+        <button id="prev-page" type="button">Previous</button>
+        <span id="page-info">Page 1 of 1</span>
+        <button id="next-page" type="button">Next</button>
+      </div>
+      <div class="page-size-controls">
+        <label for="page-size">Items per page:</label>
+        <select id="page-size">
+          <option value="50" selected>50</option>
+          <option value="100">100</option>
+          <option value="200">200</option>
+          <option value="all">All</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
