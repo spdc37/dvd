@@ -14,10 +14,6 @@
   <header class="top-bar">
     <h1>Ma collection de DVDs</h1>
     <div class="top-bar-right">
-      <button id="theme-toggle" type="button">
-        <span class="theme-toggle-icon"></span>
-        <span class="theme-toggle-label">Toggle theme</span>
-      </button>
       <div class="view-switch">
         <span class="view-switch-label">View</span>
         <select id="view-select">
@@ -25,6 +21,10 @@
           <option value="wantlist">Wantlist</option>
         </select>
       </div>
+      <button id="theme-toggle" type="button">
+        <span class="theme-toggle-icon"></span>
+        <span class="theme-toggle-label">Toggle dark/light theme</span>
+      </button>
     </div>
   </header>
 
@@ -62,7 +62,7 @@
       <div class="page-size-controls">
         <label for="page-size">Items per page:</label>
         <select id="page-size">
-          <option value="100 selected">100</option>
+          <option value="100" selected>100</option>
           <option value="200">200</option>
           <option value="all">All</option>
         </select>

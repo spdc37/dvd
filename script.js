@@ -49,6 +49,18 @@
   const searchInput = document.getElementById('search');
   const countEl = document.getElementById('count');
 
+  function initView() {
+    const storedView = localStorage.getItem('view');
+    if (storedView === 'wantlist' || storedView === 'collection') {
+      state.currentView = storedView;
+    } else {
+      state.currentView = 'collection';
+    }
+    if (viewSelect) {
+      viewSelect.value = state.currentView;
+    }
+  }
+
   function setStatus(text, isError) {
     if (!statusEl) return;
     statusEl.textContent = text;
@@ -88,8 +100,6 @@
         state.data.wantlist = [];
       }
 
-      state.currentView = 'collection';
-      state.pageSize = 100;
       state.currentPage = 1;
 
       render();
@@ -316,6 +326,7 @@
     const value = event.target.value === 'wantlist' ? 'wantlist' : 'collection';
     state.currentView = value;
     state.currentPage = 1;
+    localStorage.setItem('view', state.currentView);
     render();
   }
 
@@ -374,6 +385,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     initTheme();
+    initView();
     initEventListeners();
     loadData();
   });
