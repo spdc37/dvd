@@ -10,7 +10,7 @@
   }
 
   function initTheme() {
-    const stored = localStorage.getItem('theme');
+    const stored = localStorage.getItem('dvd.theme');
     if (stored === 'dark' || stored === 'light') {
       applyTheme(stored);
       return;
@@ -24,7 +24,7 @@
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     const next = isDark ? 'light' : 'dark';
     applyTheme(next);
-    localStorage.setItem('theme', next);
+    localStorage.setItem('dvd.theme', next);
   }
 
   const state = {
@@ -49,16 +49,72 @@
   const searchInput = document.getElementById('search');
   const countEl = document.getElementById('count');
 
-  function initView() {
-    const storedView = localStorage.getItem('view');
-    if (storedView === 'wantlist' || storedView === 'collection') {
-      state.currentView = storedView;
-    } else {
-      state.currentView = 'collection';
-    }
+  function setView(view) {
+    state.currentView = view === 'wantlist' ? 'wantlist' : 'collection';
+    state.currentPage = 1;
+
     if (viewSelect) {
       viewSelect.value = state.currentView;
     }
+
+    const desktopToggle = document.querySelectorAll('.view-toggle-button');
+    desktopToggle.forEach((btn) => {
+      const btnView = btn.getAttribute('data-view');
+      if (btnView === state.currentView) {
+        btn.classList.add('is-active');
+      } else {
+        btn.classList.remove('is-active');
+      }
+    });
+
+    try {
+      localStorage.setItem('dvd.view', state.currentView);
+    } catch (e) {
+      // ignore storage errors
+    }
+
+    render();
+  }
+
+  function initView() {
+    let initial = 'collection';
+    try {
+      const stored = localStorage.getItem('dvd.view');
+      if (stored === 'wantlist' || stored === 'collection') {
+        initial = stored;
+      }
+    } catch (e) {
+      // ignore storage errors
+    }
+
+    state.currentView = initial;
+
+    if (viewSelect) {
+      viewSelect.value = initial;
+    }
+
+    const desktopToggle = document.querySelectorAll('.view-toggle-button');
+    desktopToggle.forEach((btn) => {
+      const btnView = btn.getAttribute('data-view');
+      btn.classList.toggle('is-active', btnView === state.currentView);
+    });
+  }
+
+  function setupViewSwitch() {
+    if (viewSelect) {
+      viewSelect.addEventListener('change', () => {
+        const next = viewSelect.value === 'wantlist' ? 'wantlist' : 'collection';
+        setView(next);
+      });
+    }
+
+    const desktopButtons = document.querySelectorAll('.view-toggle-button');
+    desktopButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const view = btn.getAttribute('data-view');
+        setView(view === 'wantlist' ? 'wantlist' : 'collection');
+      });
+    });
   }
 
   function setStatus(text, isError) {
@@ -322,14 +378,6 @@
     renderTables();
   }
 
-  function onViewChange(event) {
-    const value = event.target.value === 'wantlist' ? 'wantlist' : 'collection';
-    state.currentView = value;
-    state.currentPage = 1;
-    localStorage.setItem('view', state.currentView);
-    render();
-  }
-
   function onPageSizeChange(event) {
     const value = event.target.value;
     state.pageSize = value === 'all' ? 'all' : Number(value) || 100;
@@ -357,9 +405,6 @@
   }
 
   function initEventListeners() {
-    if (viewSelect) {
-      viewSelect.addEventListener('change', onViewChange);
-    }
     if (pageSizeSelect) {
       pageSizeSelect.addEventListener('change', onPageSizeChange);
     }
@@ -386,6 +431,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initView();
+    setupViewSwitch();
     initEventListeners();
     loadData();
   });
