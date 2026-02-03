@@ -117,6 +117,59 @@
     });
   }
 
+  function initSiteSwitcher() {
+    const switcher = document.querySelector('.site-switcher');
+    if (!switcher) return;
+
+    const toggle = switcher.querySelector('.site-title-toggle');
+    const menu = switcher.querySelector('.site-menu');
+    if (!toggle || !menu) return;
+
+    function openMenu() {
+      switcher.classList.add('is-open');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeMenu() {
+      switcher.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    function toggleMenu() {
+      if (switcher.classList.contains('is-open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    }
+
+    toggle.addEventListener('click', (event) => {
+      event.stopPropagation();
+      toggleMenu();
+    });
+
+    toggle.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        toggleMenu();
+      } else if (event.key === 'Escape') {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!switcher.contains(event.target)) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeMenu();
+      }
+    });
+  }
+
   function setStatus(text, isError) {
     if (!statusEl) return;
     statusEl.textContent = text;
@@ -432,6 +485,7 @@
     initTheme();
     initView();
     setupViewSwitch();
+    initSiteSwitcher();
     initEventListeners();
     loadData();
   });
